@@ -1,14 +1,20 @@
 from selenium import webdriver
-import time
+from selenium.webdriver.chrome.options import Options
+import tempfile
 
-# Launch Chrome browser
-driver = webdriver.Chrome()
+options = Options()
+options.add_argument("--headless")  # Run in headless mode (no GUI)
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 
-# Open AWS homepage
-driver.get("https://aws.amazon.com/")
+# Create a unique user data directory
+user_data_dir = tempfile.mkdtemp()
+options.add_argument(f"--user-data-dir={user_data_dir}")
 
-# Wait 5 seconds
-time.sleep(5)
+driver = webdriver.Chrome(options=options)
 
-# Close the browser
+# Your test logic here
+driver.get("https://example.com")
+print(driver.title)
+
 driver.quit()
